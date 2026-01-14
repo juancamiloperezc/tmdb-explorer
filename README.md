@@ -1,3 +1,3 @@
 # TMDB EXPLORER
 
-## PROGRESO DEL REPOSITORIO: En Desarrollo 
+*Progreso*: `EN PROGRESO` 
