@@ -22,3 +22,4 @@ jobs:
           path: docs
         env: 
           GH_TOKEN: ${{ secrets.WIKI_TOKEN }}
+          
