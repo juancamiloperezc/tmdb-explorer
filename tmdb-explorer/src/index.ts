@@ -1,14 +1,56 @@
+import { container} from "./core/di/dependencies";
+import { factoryThemeStorage } from "./data/storage/theme.storage";
+import { ServiceType } from "./core/di/dependencies";
 
-function main(_event: Event) {
+import type { Singleton } from "./core/di/dependencies";
+import type { ThemeStorage } from "./data/storage/theme.storage";
 
-    const app = document.getElementById("app");
+const THEME_PREFERENCE = "theme";
 
-    if(!app) throw new Error("No Se Encontró Ningún Elemento Con Id: 'app'");
-    
-    const h1 = document.createElement("h1");
-    h1.innerText = "TMDB Explorer";
+function loadDependenciesInstances() {
+   const themeStorage = factoryThemeStorage(THEME_PREFERENCE, "light");
+   
+    const themeInstance: Singleton<ThemeStorage> = {
+      type: ServiceType.Singleton,
+      instance: themeStorage
+    };
 
-    app.appendChild(h1);
+   container.register<ThemeStorage>(THEME_PREFERENCE, themeInstance); 
 }
 
-window.addEventListener("DOMContentLoaded", main);
+function onChangeStorage(event: StorageEvent){
+   console.log("cambio en local storage la clave", event.key);
+}
+
+function onLoad(_event: Event) {
+  loadDependenciesInstances();
+  
+  const themeStorage = container.resolve<ThemeStorage>(THEME_PREFERENCE);
+  if(!themeStorage) return;
+
+  const body = document.querySelector<HTMLElement>("body");
+  if(!body) return;
+
+  const app = document.getElementById("app");
+  if(!app) return;
+
+  const updateThemeDOM = () => {
+    toggleTheme.innerText = themeStorage.theme;
+    body.style.background = themeStorage.theme === "dark" ? "black" : "white";
+  }
+  
+  const toggleTheme = document.createElement("button");
+  updateThemeDOM();
+
+  toggleTheme.addEventListener("click", () => {
+      themeStorage.theme = themeStorage.theme === "light" ? "dark" : "light";
+      updateThemeDOM();
+  });
+
+  app.append(toggleTheme);
+}
+
+
+window.addEventListener("DOMContentLoaded", onLoad);
+window.addEventListener("storage", onChangeStorage);
+
