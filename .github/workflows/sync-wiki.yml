@@ -18,6 +18,6 @@ jobs:
         uses: Andrew-Chen-Wang/github-wiki-action@v4
         with: 
           path: docs
-          wiki_branch: main
+          wiki_branch: master
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
