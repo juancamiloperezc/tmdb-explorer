@@ -1,6 +1,6 @@
 export type ThemeString = "light" | "dark";
 
-class ThemeStorage {
+export class ThemeStorage {
 
   private defaultTheme: ThemeString;
   private item!: string;
@@ -23,6 +23,4 @@ class ThemeStorage {
   }
 }
 
-export type { ThemeStorage }
-
-export const factoryThemeStorage = (item: string, defaultTheme: ThemeString) => new ThemeStorage(item, defaultTheme);
+// export const factoryThemeStorage = (item: string, defaultTheme: ThemeString) => new ThemeStorage(item, defaultTheme);
