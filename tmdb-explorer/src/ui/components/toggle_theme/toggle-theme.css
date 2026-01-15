@@ -1,0 +1,22 @@
+.toggle-theme {
+    background: transparent;
+}
+
+.toggle-theme label {
+    position: absolute;
+    top: var(--padding-md);
+    right: var(--padding-md);
+    font-size: 1.2rem;
+    color: rebeccapurple;
+    cursor: pointer;
+}
+
+#toggle-theme-check {
+    display: none;
+    border: 0;
+}
+
+#toogle-theme-check:hover {
+    display: none;
+}
+
