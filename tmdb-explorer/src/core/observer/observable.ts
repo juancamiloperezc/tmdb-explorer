@@ -12,7 +12,7 @@ export abstract class Observable<T> {
     return this.subscribers.delete(observer);
   }
 
-  clear() {
+  unsubscribeAll() {
     this.subscribers.clear()
   }
 
