@@ -9,6 +9,7 @@
   --space-lg: 8px;
 
   --background-color: white;
+  --on-background-color: black;
   
   --accent-primary: rebeccapurple;
   --accent-on-primarr: white;  
@@ -17,7 +18,7 @@
 [data-theme="dark"] {
 
   --background-color: black;
-
+  --on-background-color: white;
 
 }
 
@@ -31,6 +32,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: var(--on-background-color);
 }
 
 #app {
