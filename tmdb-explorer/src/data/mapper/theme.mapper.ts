@@ -1,9 +1,10 @@
 import { ThemeModel } from "../../domain/model/theme.model";
+
 import type { ThemeString } from "../storage/theme.storage";
 
 export function themeStringToThemeModel(theme: ThemeString) : ThemeModel | null {
     if(theme === "light") return ThemeModel.LIGHT;
-    if(theme === "dark") ThemeModel.DARK;
+    if(theme === "dark") return ThemeModel.DARK;
     return null;
 }
 
