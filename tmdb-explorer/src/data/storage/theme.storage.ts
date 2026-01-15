@@ -1,4 +1,4 @@
-type ThemeString = "light" | "dark";
+export type ThemeString = "light" | "dark";
 
 class ThemeStorage {
 
@@ -11,7 +11,6 @@ class ThemeStorage {
   }
 
   public get theme() : ThemeString {
-    console.log("get")
     const theme = localStorage.getItem(this.item);
     const targetTheme = (theme === "light" || theme === "dark") ? theme : this.defaultTheme; 
     
@@ -20,7 +19,6 @@ class ThemeStorage {
   }
   
   public set theme(themeKey: ThemeString) {
-    console.log("actualizando", themeKey)
     localStorage.setItem(this.item, themeKey);
   }
 }
