@@ -1,68 +1,62 @@
-import { container} from "./core/di/dependencies";
-import { factoryThemeStorage } from "./data/storage/theme.storage";
-import { preferencesRepositoryFactory } from "./data/repositories/preferences.repository";
-import { ServiceType } from "./core/di/dependencies";
+import "./styles/global.css";
 
-import type { IPreferencesRepository } from "./domain/repositories/preferences.domain.repository";
+import { container} from "./core/di/dependencies";
+import { FavoritesPage } from "./ui/pages/favorites.page";
+import { HomePage } from "./ui/pages/home.page";
+import { MainPage } from "./ui/pages/main.page";
+import { PreferencesRepository } from "./data/repositories/preferences.repository";
+import { ServiceType } from "./core/di/dependencies";
+import { ThemeStorage } from "./data/storage/theme.storage";
+
+import type { NavigationRoute } from "./ui/navigation/routes.navigation";
 import type { Singleton } from "./core/di/dependencies";
-import type { ThemeStorage } from "./data/storage/theme.storage";
+import type { IPreferencesRepository } from "./domain/repositories/preferences.domain.repository";
 
 const THEME_PREFERENCE = "theme";
 const PREFERENCES_REPOSITORY = "preferences-repo";
 
-function loadDependenciesInstances() {
-   const themeStorage = factoryThemeStorage(THEME_PREFERENCE, "light");
-   
-    const themeInstance: Singleton<ThemeStorage> = {
-      type: ServiceType.Singleton,
-      instance: themeStorage
-    };
+const themeStorage = new ThemeStorage(THEME_PREFERENCE, "light");
+const preferencesRepository = new PreferencesRepository(themeStorage);
 
-    container.register<ThemeStorage>(THEME_PREFERENCE, themeInstance); 
-    
-    const preferencesRepository: IPreferencesRepository<string> = preferencesRepositoryFactory(themeStorage); 
+const themeProvider: Singleton<ThemeStorage> = {
+  type: ServiceType.Singleton,
+  instance: themeStorage
+};
 
-    const preferencesRepositoryInstance: Singleton<IPreferencesRepository<string>> = {
-      type: ServiceType.Singleton, 
-      instance: preferencesRepository
-    }
-
-    container.register<IPreferencesRepository<string>>(PREFERENCES_REPOSITORY, preferencesRepositoryInstance);
+const preferencesRepositoryProvider: Singleton<PreferencesRepository> = {
+  type: ServiceType.Singleton,
+  instance: preferencesRepository
 }
 
-function onChangeStorage(event: StorageEvent){
-   console.log("cambio en local storage la clave", event.key);
-}
+container.register<ThemeStorage>(THEME_PREFERENCE, themeProvider);
+container.register<PreferencesRepository>(PREFERENCES_REPOSITORY, preferencesRepositoryProvider);
 
-function onLoad(_event: Event) {
-  loadDependenciesInstances();
+window.addEventListener("DOMContentLoaded", () => init());
+
+function init() {
+
+  const routes: Array<NavigationRoute> = [
+     {
+        title: "Home", 
+        description: "Está es la página Home",
+        path: "/",
+        page: () => new HomePage()
+     }, 
+     {
+        title: "Favorites",
+        description: "Esta es la página de favoritos", 
+        path: "/favorites",
+        page: () => new FavoritesPage()
+     }
+  ]
+
+  const initialTheme = container.resolve<ThemeStorage>(THEME_PREFERENCE)?.theme === "dark" || false;
+  const preferencesRepository = container.resolve<IPreferencesRepository>(PREFERENCES_REPOSITORY);
   
-  const themeStorage = container.resolve<ThemeStorage>(THEME_PREFERENCE);
-  if(!themeStorage) return;
-
-  const body = document.querySelector<HTMLElement>("body");
-  if(!body) return;
+  if(!preferencesRepository) return;
 
   const app = document.getElementById("app");
-  if(!app) return;
-
-  const updateThemeDOM = () => {
-    toggleTheme.innerText = themeStorage.theme;
-    body.style.background = themeStorage.theme === "dark" ? "black" : "white";
-  }
+  const main = new MainPage(routes, initialTheme, preferencesRepository);
   
-  const toggleTheme = document.createElement("button");
-  updateThemeDOM();
-
-  toggleTheme.addEventListener("click", () => {
-      themeStorage.theme = themeStorage.theme === "light" ? "dark" : "light";
-      updateThemeDOM();
-  });
-
-  app.append(toggleTheme);
+  app?.appendChild(main.render());
 }
-
-
-window.addEventListener("DOMContentLoaded", onLoad);
-window.addEventListener("storage", onChangeStorage);
-
