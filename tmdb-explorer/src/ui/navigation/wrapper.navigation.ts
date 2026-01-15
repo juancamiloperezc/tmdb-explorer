@@ -1,18 +1,32 @@
+import { Observable } from "../../core/observer/observable";
 import type { NavigationRoute } from "./routes.navigation";
 
-export class NavigationWrapper {
+export interface NavigationState {
+  route: NavigationRoute | null, 
+  params: any | null
+}
+
+export class NavigationWrapper extends Observable<NavigationState>{
    
   private ON_LOCATION_EVENT_NAME = "onLocationChange";
 
-  private routes: NavigationRoute[];
-  private onChangeRoute: (route: NavigationRoute | null, params: any | null) => void;
+  private _routes: NavigationRoute[];
 
-  constructor(routes: NavigationRoute[], onChangeRoute: (route: NavigationRoute | null, params: any | null) => void) {
-    this.routes = routes;
-    this.onChangeRoute = onChangeRoute;
+  constructor(routes: NavigationRoute[]) {
+    super();
 
-    this.initEvents;
+    this._routes = routes;
+
+    this.initEvents();
   } 
+
+  public navigateTo(route: NavigationRoute, params: any | null){
+      history.pushState({}, "", route.path);
+  }
+
+  public get routes() {
+    return this._routes;
+  }
 
   private initEvents() : void {
     const originalPushState = history.pushState;
@@ -30,11 +44,10 @@ export class NavigationWrapper {
 
   private async onLocationhandler()  {
     const urlPath = window.location.pathname;
-
-    const route = this.routes.find(itemRoute => itemRoute.path === urlPath) || null;
-
+    const route = this._routes.find(itemRoute => itemRoute.path === urlPath) || null;
     const params = history.state || null;
-    this.onChangeRoute(route, params);
+
+    this.notify({ route, params })
   }
 
 }
