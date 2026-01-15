@@ -1,11 +1,14 @@
 import { container} from "./core/di/dependencies";
 import { factoryThemeStorage } from "./data/storage/theme.storage";
+import { preferencesRepositoryFactory } from "./data/repositories/preferences.repository";
 import { ServiceType } from "./core/di/dependencies";
 
+import type { IPreferencesRepository } from "./domain/repositories/preferences.domain.repository";
 import type { Singleton } from "./core/di/dependencies";
 import type { ThemeStorage } from "./data/storage/theme.storage";
 
 const THEME_PREFERENCE = "theme";
+const PREFERENCES_REPOSITORY = "preferences-repo";
 
 function loadDependenciesInstances() {
    const themeStorage = factoryThemeStorage(THEME_PREFERENCE, "light");
@@ -15,7 +18,16 @@ function loadDependenciesInstances() {
       instance: themeStorage
     };
 
-   container.register<ThemeStorage>(THEME_PREFERENCE, themeInstance); 
+    container.register<ThemeStorage>(THEME_PREFERENCE, themeInstance); 
+    
+    const preferencesRepository: IPreferencesRepository<string> = preferencesRepositoryFactory(themeStorage); 
+
+    const preferencesRepositoryInstance: Singleton<IPreferencesRepository<string>> = {
+      type: ServiceType.Singleton, 
+      instance: preferencesRepository
+    }
+
+    container.register<IPreferencesRepository<string>>(PREFERENCES_REPOSITORY, preferencesRepositoryInstance);
 }
 
 function onChangeStorage(event: StorageEvent){
