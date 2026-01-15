@@ -1,5 +1,4 @@
-import type { Observer } from "../../core/observer/observer";
-
 export interface BasePage {
-   render(): Node;
+   render(): HTMLElement;
+   clear(): void;
 };

@@ -22,7 +22,11 @@ export class HomePage implements BasePage {
 
   }
 
-  render(): Node {
+  clear(): void {
+    
+  }
+
+  render(): HTMLElement {
     return this.root;
   }
   

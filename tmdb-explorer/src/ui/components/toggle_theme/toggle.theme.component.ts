@@ -59,7 +59,7 @@ export class ToggleThemeComponent extends Observable<boolean> {
     return this._isDarkTheme;
   }
 
-  public render(): Node {
+  public render(): HTMLElement {
     return this.root;
   }
 }
