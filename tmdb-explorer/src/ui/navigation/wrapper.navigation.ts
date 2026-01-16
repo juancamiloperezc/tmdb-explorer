@@ -20,7 +20,7 @@ export class NavigationWrapper extends Observable<NavigationState>{
     this.initEvents();
   } 
 
-  public navigateTo(route: NavigationRoute, params: any | null){
+  public navigateTo(route: NavigationRoute, _params: any | null){
       history.pushState({}, "", route.path);
   }
 
