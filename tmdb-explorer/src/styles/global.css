@@ -8,17 +8,44 @@
   --space-md: 4px;
   --space-lg: 8px;
 
-  --background-color: white;
-  --on-background-color: black;
+  /** TEMA CLARO **/
+
+  --color-primary: #e50914;      
+  --color-primary-hover: #b20710;
+  --color-accent: #f5c518;
+  --color-info: #0071eb;
+
+  --bg-color: #ffffff;
+  --bg-color-soft: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-main: #121212;
+  --text-muted: #666666;
+  --border-color: #e0e0e0;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  --nav-bar-bg: rgba(255, 255, 255, 0.95); 
+  --nav-bar-text: var(--text-main);         
+  --nav-bar-link-hover: var(--color-primary);  
+  --nav-bar-border: var(--border-color); 
+  --nav-bar-height: 72px;
+
   
-  --accent-primary: rebeccapurple;
-  --accent-on-primarr: white;  
 }
 
 [data-theme="dark"] {
 
-  --background-color: black;
-  --on-background-color: white;
+  --bg-color: #0f0f0f;           
+  --bg-color-soft: #1a1a1a;      
+  --card-bg: #242424;            
+  --text-main: #f5f5f5;          
+  --text-muted: #aaaaaa;         
+  --border-color: #333333;       
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  --nav-bar-bg: rgba(15, 15, 15, 0.9);    
+  --nav-bar-text: var(--text-main);       
+  --nav-bar-link-hover: var(--color-primary);
+  --nav-bar-border: #252525; 
 
 }
 
@@ -32,13 +59,13 @@ body {
   margin: 0;
   height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  background: var(--background-color);
+  background: var(--bg-color);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: var(--on-background-color);
+  color: var(--text-main);
 }
 
 /*#app {
