@@ -29,6 +29,21 @@ const routes: Array<NavigationRoute> = [
         description: "Esta es la página de favoritos", 
         path: "/favorites",
         page: () => new FavoritesPage()
+     }, 
+     {
+        title: "Not Found", 
+        description: "", 
+        path: "/invalid",
+        page: () => ({
+          clear() {
+            
+          },
+          render: () => {
+            const div = document.createElement("div");
+            div.innerText = "Página No Encontrada"
+            return div;
+          }
+        })
      }
   ]
 
@@ -55,6 +70,7 @@ container.register<ThemeStorage>(THEME_PREFERENCE, themeProvider);
 container.register<PreferencesRepository>(PREFERENCES_REPOSITORY, preferencesRepositoryProvider);
 container.register<NavigationWrapper>(NAVIGATION_WRAPPER, navigationWrapperProvider);
 
+
 window.addEventListener("DOMContentLoaded", () => init());
 
 function init() {
@@ -73,6 +89,8 @@ function init() {
 
   const initialRoute = navigationWrapper.routes.find(itemRoute => itemRoute.path === "/");
   if(!initialRoute) return;
+
+    
 
   navigationWrapper.navigateTo(initialRoute, null);
 }
