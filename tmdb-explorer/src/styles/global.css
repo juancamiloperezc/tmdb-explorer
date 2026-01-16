@@ -22,6 +22,12 @@
 
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
 body {
   margin: 0;
   height: 100vh;
@@ -35,7 +41,7 @@ h1 {
   color: var(--on-background-color);
 }
 
-#app {
+/*#app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -93,4 +99,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

@@ -57,7 +57,6 @@ container.register<NavigationWrapper>(NAVIGATION_WRAPPER, navigationWrapperProvi
 
 window.addEventListener("DOMContentLoaded", () => init());
 
-
 function init() {
 
   const initialTheme = container.resolve<ThemeStorage>(THEME_PREFERENCE)?.theme === "dark" || false;
