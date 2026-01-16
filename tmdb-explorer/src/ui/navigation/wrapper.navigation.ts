@@ -39,7 +39,22 @@ export class NavigationWrapper extends Observable<NavigationState>{
 
     window.addEventListener("popstate", async () => await this.onLocationhandler());
     window.addEventListener(this.ON_LOCATION_EVENT_NAME, async () => await this.onLocationhandler());
-
+    
+    window.addEventListener("click", (event: Event) => {
+      const anchor = (event.target as HTMLElement).closest("a");
+      
+      if(anchor && anchor.href && anchor.origin === window.location.origin){
+        event.preventDefault();
+        
+        let  route = this.routes.find(route => route.path === new URL(anchor.href).pathname);
+        
+        if(!route) route = this.routes.find(route => route.path === "/invalid");
+        if(!route) return;
+        
+        console.log(route);
+        this.navigateTo(route, null);
+      }
+  });
   }
 
   private async onLocationhandler()  {
