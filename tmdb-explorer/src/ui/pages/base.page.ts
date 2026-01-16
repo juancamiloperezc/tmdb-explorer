@@ -1,4 +1,4 @@
 export interface BasePage {
-   render(): HTMLElement;
+   render(): HTMLElement | Node;
    clear(): void;
 };
