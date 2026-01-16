@@ -3,16 +3,17 @@
 }
 
 .toggle-theme label {
-    position: absolute;
-    top: var(--padding-md);
-    right: var(--padding-md);
     font-size: 1.2rem;
-    color: rebeccapurple;
     cursor: pointer;
+}
+
+.toggle-theme label i {
+    transition: 0.3s;
 }
 
 #toggle-theme-check {
     display: none;
 }
+
 
 

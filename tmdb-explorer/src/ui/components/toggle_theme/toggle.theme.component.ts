@@ -25,11 +25,13 @@ export class ToggleThemeComponent extends Observable<boolean> {
 
     this.root.innerHTML = `
       <label for="toggle-theme-check"> 
-        <i class="toggle-theme-icon fa-solid ${this._isDarkTheme ? "fa-moon" : "fa-sun"}"> </i>
+        <i class="toggle-theme-icon fa-solid ${this._isDarkTheme ? "moon fa-moon" : "sun fa-sun"}"> </i>
       </label>
       
       <input id="toggle-theme-check" type="checkbox" ${this._isDarkTheme ? "checked" : "" }>
     `
+    const icon = this.root.querySelector("i");
+    if(icon) icon.style.color = this.isDarkTheme ? "white" : "#ffd900";
   }
 
   private initEvents() : void {
@@ -39,8 +41,13 @@ export class ToggleThemeComponent extends Observable<boolean> {
 
     toggleThemeCheckbox.addEventListener("change", (event: Event) => {
       const checkbox = event.target as HTMLInputElement;
+      
       this.isDarkTheme = checkbox.checked;
       this.notify(this._isDarkTheme);
+
+      const icon = this.root.querySelector("i");
+      if(icon) icon.style.color = this.isDarkTheme ? "white" : "#FFE484";
+
     });
   }
 
