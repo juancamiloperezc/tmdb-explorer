@@ -25,6 +25,7 @@ export class MainPage implements BasePage {
 
     this.init();
     this.initEvents();
+    this.changeTheme(isDarkTheme);
   }
 
   private init() {
@@ -33,19 +34,34 @@ export class MainPage implements BasePage {
         <a href="/">Ir A Principal</a>
         <a href="/favorites">Ir A Favoritos</a>
       </nav>
-      
-      ${this.toggleTheme.render().outerHTML}
-
-      <div id="dynamic-content">
-      </div>
+      <div id="dynamic-content"> </div>
     `
+
+    const navigationSection = this.root.querySelector<HTMLElement>(".navigation");
+    this.root.insertBefore(this.toggleTheme.render(), navigationSection);
   }
 
   private initEvents() {
     
+    this.navigationWrapper.subscribe({
+      update: ({ route, params }) => this.changePage(route, params)
+    })
+
+    this.toggleTheme.subscribe({
+      update: (isDarkTheme: boolean) => {
+        this.repository.theme = isDarkTheme? ThemeModel.DARK : ThemeModel.LIGHT
+      }
+    });
+
+    this.repository.subscribe({
+      update: (theme: ThemeModel) => {
+        this.changeTheme(theme === ThemeModel.DARK)
+      }
+    });
+
     this.root.querySelector(".navigation")?.addEventListener("click", (event) => {
       event.preventDefault();  
-
+      
       const a = (event.target as HTMLElement).closest('a');
       if(!a) return;
 
@@ -56,18 +72,6 @@ export class MainPage implements BasePage {
 
       this.navigationWrapper.navigateTo(route, null);
 
-    });
-
-    this.navigationWrapper.subscribe({
-      update: ({ route, params }) => this.changePage(route, params)
-    })
-
-    this.toggleTheme.subscribe({
-      update: (isDarkTheme: boolean) => this.changeTheme(isDarkTheme)
-    });
-
-    this.repository.subscribe({
-      update: (theme: ThemeModel) => this.changeTheme(theme === ThemeModel.DARK)
     });
   }
 
@@ -82,7 +86,7 @@ export class MainPage implements BasePage {
   }
 
   private changeTheme(isDarkTheme: boolean){
-     document.documentElement.setAttribute("data-theme", isDarkTheme ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", isDarkTheme ? "dark" : "light");
   }
 
   clear(): void {
