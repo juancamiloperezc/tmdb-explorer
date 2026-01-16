@@ -35,7 +35,9 @@ export class ToggleThemeComponent extends Observable<boolean> {
   private initEvents() : void {
     const toggleThemeCheckbox = this.root.querySelector<HTMLInputElement>("#toggle-theme-check");
     
-    toggleThemeCheckbox?.addEventListener("change", (event: Event) => {
+    if(!toggleThemeCheckbox) return;
+
+    toggleThemeCheckbox.addEventListener("change", (event: Event) => {
       const checkbox = event.target as HTMLInputElement;
       this.isDarkTheme = checkbox.checked;
       this.notify(this._isDarkTheme);
