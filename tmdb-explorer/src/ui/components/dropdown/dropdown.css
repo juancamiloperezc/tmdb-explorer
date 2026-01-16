@@ -1,0 +1,18 @@
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--bg-color);
+  min-width: 100px;
+  min-height: 20px;
+  width: max-content;
+  box-shadow: var(--shadow);
+  padding: 12px 16px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
