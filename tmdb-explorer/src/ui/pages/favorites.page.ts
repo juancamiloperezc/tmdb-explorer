@@ -26,7 +26,7 @@ export class FavoritesPage implements BasePage {
     
   }
 
-  render(): HTMLElement {
+  render(): HTMLElement | Node {
     return this.root;
   }
   
